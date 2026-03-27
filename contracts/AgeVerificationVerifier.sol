@@ -1,11 +1,23 @@
+
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.30;
+pragma solidity ^0.8;
 
-contract Identity {
-    address public owner;
+import "./identity.sol";
 
-    constructor(address _owner) {
-        owner = _owner;
+contract Verifier {
+
+    event credentialStatus(bool credentialValid);
+
+    function verifyCredential(address credentialAddress) public view returns (bool) {
+    // if verifyCredential() == True:
+    //      emit credentialStatus(True)
     }
+
+
+
+
+
+
+
 }
 

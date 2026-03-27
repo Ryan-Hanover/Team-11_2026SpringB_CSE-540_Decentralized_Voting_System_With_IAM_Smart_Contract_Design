@@ -1,13 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.30;
 
-import "./identity.sol";
+contract Identity {
+    address public owner;
 
-contract Verifier {
-    function verify(address identityAddress, address expectedOwner) public view returns (bool) {
-        address reportedOwner = IIdentity(identityAddress).owner();
-        return reportedOwner == expectedOwner;
+    uint256 private credentialCount;
+
+    event credentialIssued(address credentialAddress);
+    event credentialRevoked(bool revocationStatus, string responseMessage);
+
+    constructor(address _owner) {
+        owner = _owner;
     }
+
+    function issueCredential(string calldata firstName, string calldata lastName, string calldata dob) public returns (bool) {
+        // if credentialIssued() == True:
+        //      emit credentialIssued()
+        //      credentialCount=+1
+    }
+
+    function revokeCredential(address identityAddress) public returns (bool) {
+        // if credentialRevoked() == True:
+        //      emit credentialRevoked()
+        //      credentialCount=-1, maybe not decrement?
+    }
+
 }
-
-
