@@ -1,6 +1,7 @@
 # CSE540-group11
 
 1. Overview
+   
 This project implements a privacy-preserving voter eligibility system on Ethereum. Voters prove they are 18 or older without revealing any personal information. The system achieves this using three technologies working together:
 
 a. Verifiable Credentials (VCs)
