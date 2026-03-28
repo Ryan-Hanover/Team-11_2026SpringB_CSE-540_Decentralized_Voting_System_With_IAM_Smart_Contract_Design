@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.30;
+pragma solidity ^0.8.30;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 
-contract Identity {
+interface IDIDRegistry {function isDIDActive(address holderAddress) external view returns (bool);}
+
+contract Issuer {
     address public owner;
+    IDIDRegistry private didRegistry;
 
     struct Credential {
         bool valid;
@@ -15,8 +18,9 @@ contract Identity {
 
     mapping(bytes32 => Credential) private credentials;
 
-    constructor() {
+    constructor(address didAddress) {
         owner = msg.sender;
+        didRegistry = IDIDRegistry(didAddress);
     }
 
     modifier onlyOwner() {
@@ -44,6 +48,7 @@ contract Identity {
         string calldata cid,
         address walletAddress
     ) public onlyOwner returns (bool) {
+        require (didRegistry.isDIDActive(walletAddress), "Not an active DID");
         if (!credentials[credentialHash].valid) {
             credentials[credentialHash] = Credential(true, cid, walletAddress);
             return true;
