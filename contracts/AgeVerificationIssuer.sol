@@ -2,6 +2,7 @@
 pragma solidity 0.8.30;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 
 contract Identity {
     address public owner;
@@ -29,7 +30,8 @@ contract Identity {
         bytes calldata signature
     ) public view returns (bool) {
         Credential memory cred = credentials[credentialHash];
-        address signer = ECDSA.recover(credentialHash, signature);
+        bytes32 ethHash = MessageHashUtils.toEthSignedMessageHash(credentialHash);
+        address signer = ECDSA.recover(ethHash, signature);
         return
             cred.valid &&
             keccak256(abi.encodePacked(cred.ipfsCID)) ==
