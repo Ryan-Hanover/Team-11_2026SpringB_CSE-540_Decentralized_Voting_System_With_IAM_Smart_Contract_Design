@@ -14,5 +14,11 @@ states/
 .env
 .env.local
 .states
+.deps
+.prettierrc.json
+bin
+lib
+lib64
+pyvenv.cfg
 
 .DS_Store
