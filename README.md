@@ -34,11 +34,13 @@ pip install requests web3 eth-abi
 
 ## Instructions to Test
 
-1. In Remix, deploy `AgeVerificationIssuer.sol` first and copy the contract address shown in the deployed contracts panel.
+1. In Remix, deploy `DIDRegistry.sol` first and capture the DID address.
 
-2. Deploy `AgeVerificationVerifier.sol` second, pasting the `AgeVerificationIssuer.sol` address into the constructor field before deploying.
+2. Deploy `AgeVerificationIssuer.sol` and copy the contract address shown in the deployed contracts panel.
 
-3. With the IPFS daemon running and both contracts deployed, run `info_2_ipfs.py` with the required arguments (May have to make executable first):
+3. Deploy `AgeVerificationVerifier.sol`, pasting the `AgeVerificationIssuer.sol` address into the constructor field before deploying.
+
+4. With the IPFS daemon running and both contracts deployed, run `info_2_ipfs.py` with the required arguments (May have to make executable first):
 ```bash
     info_2_ipfs.py --firstName John --lastName Doe --dob 1990-01-01
 ```
