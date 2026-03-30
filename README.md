@@ -45,10 +45,10 @@ pip install requests web3 eth-abi
     info_2_ipfs.py --firstName John --lastName Doe --dob 1990-01-01
 ```
 
-4. In Remix, navigate to the deployed `AgeVerificationIssuer` contract. Call `issueCredential` with the `credentialHash`, `ipfsCID`, and `walletAddress` printed by the script.
+5. In Remix, navigate to the deployed `AgeVerificationIssuer` contract. Call `issueCredential` with the `credentialHash`, `ipfsCID`, and `walletAddress` printed by the script.
 
-5. Navigate to the deployed `AgeVerificationVerifier` contract. Call `verify` with the same `credentialHash` and `ipfsCID`.
+6. Navigate to the deployed `AgeVerificationVerifier` contract. Call `verify` with the same `credentialHash` and `ipfsCID`.
 
-6. To generate a signature, navigate to the top of the Deploy panel in Remix. Click the pencil icon next to the account dropdown, paste the `credentialHash` from the script into the message field, and click Sign. Copy the **Signature** value (not the Hash).
+7. To generate a signature, navigate to the top of the Deploy panel in Remix. Click the pencil icon next to the account dropdown, paste the `credentialHash` from the script into the message field, and click Sign. Copy the **Signature** value (not the Hash).
 
-7. Paste the signature into the `verify` call alongside the `credentialHash` and `ipfsCID`. Click transact and confirm the result is `true`.
+8. Paste the signature into the `verify` call alongside the `credentialHash` and `ipfsCID`. Click transact and confirm the result is `true`.
