@@ -31,7 +31,8 @@ interface IDIDRegistry {
 
 /// @title Verifier
 /// @notice A restricted gateway contract for verifying decentralised credentials
-/// @dev Delegates credential verification to an IIssuer implementation.
+/// @dev This contract represents the "Verifier" (Election Official) in our 3-entity design.
+///      Delegates credential verification to an IIssuer implementation.
 ///      Only the contract owner may call the verify function, providing an
 ///      access-control layer on top of the underlying issuer logic.
 ///      Future versions may integrate IDIDRegistry to gate verification on
@@ -62,8 +63,10 @@ contract Verifier {
     }
 
     /// @notice Verifies a credential by delegating to the issuer contract
-    /// @dev Can only be called by the contract owner. Forwards all parameters
-    ///      directly to IIssuer.verify without modification.
+    /// @dev Scans the presented proof and verifies it on the blockchain.
+    ///      The verifier checks if the voter's credential is valid AND above 18.
+    ///      By calling the Issuer contract, the verifier only learns true or false 
+    ///      and nothing else thereby successfully mitigating excessive personal data disclosure.
     /// @param credentialHash The keccak256 hash of the credential data
     /// @param cid The IPFS Content Identifier pointing to the off-chain credential document
     /// @param signature The cryptographic signature produced by the issuer over the credential

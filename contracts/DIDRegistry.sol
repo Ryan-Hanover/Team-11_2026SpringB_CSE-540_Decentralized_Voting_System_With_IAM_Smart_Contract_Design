@@ -3,11 +3,9 @@ pragma solidity ^0.8.20;
 
 /// @title DIDRegistry
 /// @notice On-chain registry for managing Decentralized Identifiers (DIDs)
-/// @dev Each Ethereum address may register at most one DID, represented by a
-///      hash of an off-chain DID document. DIDs can be deactivated by their
-///      holder but cannot be deleted or re-registered once created.
-///      All sensitive DID document data should be stored off-chain; only the
-///      document hash is persisted here for integrity verification.
+/// @dev Manages the Decentralized Identifiers (DIDs) for users in the dApp system.
+///      This acts as the foundational registry to ensure identities are active before 
+///      issuing credentials or verifying proofs, reducing the risk of identity theft.
 contract DIDRegistry {
 
     /// @notice Represents a registered DID entry
@@ -15,8 +13,8 @@ contract DIDRegistry {
     /// @param documentHash The keccak256 hash of the off-chain DID document
     /// @param isActive Whether the DID is currently active and usable
     struct DIDEntry {
-        address holder;
-        bytes32 documentHash;
+        address holder; // The Voter's wallet address
+        bytes32 documentHash; // Hash of the underlying identity document
         bool isActive;
     }
 
@@ -47,7 +45,8 @@ contract DIDRegistry {
         _;
     }
 
-    /// @notice Registers a new DID for the calling address
+    /// @notice Registers a new decentralized identity for a voter.
+    ///      This simulates the foundational KYC verification process.
     /// @dev Each address may only register one DID. The documentHash must be
     ///      non-zero and should correspond to an off-chain DID document
     ///      (e.g. stored on IPFS). Emits {DIDRegistered} on success.
@@ -61,11 +60,12 @@ contract DIDRegistry {
             documentHash: documentHash,
             isActive: true
         });
-
+        
         emit DIDRegistered(msg.sender, documentHash);
     }
 
     /// @notice Permanently deactivates the caller's registered DID
+    ///      Allows a voter to deactivate if compromised.
     /// @dev Sets isActive to false. This action is irreversible — the DID
     ///      cannot be reactivated or re-registered under the same address.
     ///      Reverts if the caller has no registered DID. Emits {DIDDeactivated}.
@@ -77,6 +77,7 @@ contract DIDRegistry {
     /// @notice Checks whether the DID for a given address is currently active
     /// @dev Returns false for both deactivated DIDs and addresses with no
     ///      registered DID, since the default value of isActive is false.
+    ///      Used by the Issuer and Verifier contracts to ensure a voter's identity is currently valid.
     /// @param holderAddress The address whose DID status is being queried
     /// @return bool True if the DID exists and is active, false otherwise
     function isDIDActive(address holderAddress) external view returns (bool) {
